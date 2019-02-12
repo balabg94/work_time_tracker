@@ -1,0 +1,5 @@
+* Command line options:
+  ** -p : project name
+  ** --start : start timer
+  ** --stop : stop timer
+
