@@ -27,32 +27,36 @@ out_dict = dict()
 current_date = datetime.datetime.now().strftime("%d-%m-%Y")
 out_dict[current_date] = []
 
-def read_file():
-    with open('kronos', 'a+') as kronos_file:
-        return kronos_file
-
-
-
-if results.start_time:
-    args['start_time'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+def start_time():
+    args['start_time'] = datetime.datetime.now().strftime("%H:%M")
     out_dict[current_date].append(args['start_time'])
     with open('kronos', 'a') as kronos_file:
         json.dump(out_dict, kronos_file)
 
+def stop_time():
+    args['stop_time'] = datetime.datetime.now().strftime("%H:%M")
+    if len(file_[current_date]) == 1:
+        file_[current_date].append(args['stop_time'])        
+    elif len(file_[current_date]) ==2:
+        print('Already stopped.')
+def read_file():
+    with open('kronos', 'r') as kronos_file:
+        data = kronos_file.read()
+        data_json = json.loads(data)
+        return data_json
+
+
+
+if results.start_time:
+    start_time()
+
+file_ = read_file()
+print(file_)
+
 if results.stop_time:
-    args['stop_time'] = datetime.datetime.now
-    for i in out_dict[current_date]:
-        print('ok')
-        if len(i) == 1:
-            print('in')
-            i.append(args['stop_time'])
-        else:
-            print('none')
-#import pdb; pdb.set_trace()
-# print args
+    stop_time()
 
-#print(out_dict)
+with open('kranos','w+') as out_:
+    json.dump(file_, out_)
 
 
-# with open('outfile', 'a') as outfile:
-#     json.dump(args, outfile)
